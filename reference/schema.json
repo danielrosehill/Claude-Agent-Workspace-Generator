@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Claude Space",
+  "description": "Validation schema for a Claude Space repository structure.",
+  "version": "1.1",
+  "type": "object",
+  "required_files": [
+    "CLAUDE.md",
+    ".claude/commands/onboard.md"
+  ],
+  "required_directories": [
+    "context",
+    "context/for-agent",
+    "work-log",
+    "planning",
+    "user-docs",
+    ".claude/commands"
+  ],
+  "optional_files": [
+    ".mcp.json",
+    "scripts/"
+  ],
+  "directories": {
+    "context": {
+      "owner": "user",
+      "purpose": "Essential project context and reference material",
+      "onboard_creates": ["project.md", "role.md", "constraints.md"],
+      "file_format": "markdown",
+      "subdirectories": {
+        "for-agent": {
+          "purpose": "Detailed agent instructions too verbose for CLAUDE.md",
+          "example_files": ["environment.md", "workflows.md"]
+        }
+      }
+    },
+    "work-log": {
+      "owner": "agent",
+      "purpose": "Daily operational tracking",
+      "naming_convention": "YYYY-MM-DD.md",
+      "file_format": "markdown"
+    },
+    "planning": {
+      "owner": "agent",
+      "purpose": "Active plan and pivot history",
+      "required_files": ["plan.md"],
+      "subdirectories": {
+        "pivots": {
+          "naming_convention": "YYYY-MM-DD-reason.md",
+          "purpose": "Records of significant plan changes with rationale"
+        }
+      }
+    },
+    "user-docs": {
+      "owner": "agent",
+      "purpose": "Polished reference documents for the user",
+      "file_format": "markdown"
+    },
+    ".claude/commands": {
+      "owner": "template",
+      "purpose": "Slash commands defining repeatable workflows",
+      "required_files": ["onboard.md"]
+    }
+  },
+  "lifecycle": {
+    "stages": [
+      {
+        "name": "scaffold",
+        "description": "User clones a designated space template"
+      },
+      {
+        "name": "personalize",
+        "description": "User context ingested via /onboard",
+        "trigger": "/onboard",
+        "creates": ["context/project.md", "context/role.md", "context/constraints.md", "context/for-agent/environment.md", "planning/plan.md", "work-log/YYYY-MM-DD.md"]
+      },
+      {
+        "name": "success",
+        "description": "Fully configured and ready for use"
+      }
+    ]
+  },
+  "onboard_detection": {
+    "check": "context/project.md",
+    "if_missing": "Space has not been onboarded. Prompt user to run /onboard."
+  },
+  "context_architecture": {
+    "principle": "CLAUDE.md stays lightweight with stubs; context/for-agent/ holds detailed instructions",
+    "claude_md": "High-level essentials only: role, template identity, stub references, commands",
+    "context_for_agent": "Detailed agent instructions read on demand",
+    "memory_policy": "Repository is the primary memory store"
+  }
+}
