@@ -1,3 +1,5 @@
+[![Claude Code Repos Index](https://img.shields.io/badge/Claude%20Code-Repos%20Index-blue?style=flat-square&logo=github)](https://github.com/danielrosehill/Claude-Code-Repos-Index)
+
 # Claude Agent Workspace Generator
 
 A Claude Code workspace for creating, editing, and managing Claude Space templates that conform to the [Claude Agent Workspace Model](https://github.com/danielrosehill/Claude-Agent-Workspace-Model) v1.1 specification.
@@ -61,3 +63,7 @@ my-space/
 └── .claude/commands/
     └── onboard.md         # Required initialization command
 ```
+
+---
+
+For more Claude Code projects, visit my [Claude Code Repos Index](https://github.com/danielrosehill/Claude-Code-Repos-Index).
